@@ -51,9 +51,8 @@ public abstract class AbstractPattern<T> implements IPattern<T> {
             if (i < split.length - 1) {
                 try {
                     sb.append("where(");
-                    sb.append(conditons(list.get(i)));
+                    sb.append(conditions(list.get(i)));
                     sb.append(")");
-
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -63,10 +62,7 @@ public abstract class AbstractPattern<T> implements IPattern<T> {
         return sb.toString();
     }
 
-
-    public String conditons(String where) throws Exception {
-
-
+    public String conditions(String where) throws Exception {
         String conditionSplit = getConditionSplit(where);
         String[] wheres = null;
         if (conditionSplit == null) {
@@ -125,28 +121,22 @@ public abstract class AbstractPattern<T> implements IPattern<T> {
         } else if ("float".equals(type) || "double".equals(type)) {
             return Double.TYPE;
         }
-
         return String.class;
-
     }
 
     //拼接算术表达式
     public String spliceConditions(String fieldName, Class fieldType, String value, String expression) {
         StringBuilder sb = new StringBuilder();
-
-
         if (fieldType == String.class) {
             sb.append("getString(").append(fieldName).append(")")
                     .append(expression)
                     .append("'")
                     .append(value)
                     .append("'");
-
         } else if (fieldType == Long.TYPE) {
             sb.append("getLong(").append(fieldName).append(")")
                     .append(expression)
                     .append(value);
-
         } else if (fieldType == Integer.TYPE) {
             sb.append("getInt(").append(fieldName).append(")")
                     .append(expression)
@@ -156,7 +146,6 @@ public abstract class AbstractPattern<T> implements IPattern<T> {
                     .append(expression)
                     .append(value);
         }
-
         return sb.toString();
     }
 
@@ -182,7 +171,6 @@ public abstract class AbstractPattern<T> implements IPattern<T> {
             } else {
                 expression = ">";
             }
-
         } else if (where.contains("<")) {
             if (where.contains("<=")) {
                 expression = "<=";

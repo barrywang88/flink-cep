@@ -18,8 +18,6 @@ public class MessageProducer {
         producer = new KafkaProducer<>(kfkProperties);
     }
 
-
-
     public static void main(String[] args) {
         long st = System.currentTimeMillis();
         for(int i=0;i<10000;i++){
@@ -31,9 +29,7 @@ public class MessageProducer {
         producer.close();
 
         System.out.println((System.currentTimeMillis()-st)/1000.0);
-
     }
-
 
     static{
         data = new String[]{

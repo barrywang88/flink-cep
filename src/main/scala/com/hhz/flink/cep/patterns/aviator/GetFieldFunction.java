@@ -18,14 +18,11 @@ public class GetFieldFunction extends HhzFieldFunction {
 
     @Override
     public AviatorString call(Map<String, Object> params, AviatorObject arg1) {
-
         AviatorJavaType field = (AviatorJavaType)arg1;
         String name = field.getName();
-
         if(name.contains(".")){
             return new AviatorString(jsonValue(name, params));
         }
-
         String stringValue = FunctionUtils.getStringValue(arg1, params);
         return new AviatorString(stringValue);
     }

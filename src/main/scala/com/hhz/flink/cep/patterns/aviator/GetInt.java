@@ -8,7 +8,6 @@ import com.googlecode.aviator.runtime.type.AviatorObject;
 import java.util.Map;
 
 public class GetInt extends HhzFieldFunction {
-
     @Override
     public String getName() {
         return "getInt";
@@ -25,6 +24,4 @@ public class GetInt extends HhzFieldFunction {
         Number numberValue = FunctionUtils.getNumberValue(arg1, params);
         return new AviatorBigInt(numberValue.intValue());
     }
-
-
 }

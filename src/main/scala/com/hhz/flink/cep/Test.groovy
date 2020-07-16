@@ -8,12 +8,8 @@ def getP(){
 //     return Pattern.<LoginEvent>begin("begin").where(new LogEventCondition("getField(eventType)=\"fail\""))
 //            .next("next").where(new LogEventCondition("getField(eventType)=\"fail\""))
 //            .within(Time.seconds(3))
-
-
     return Pattern.<LoginEvent>begin("begin").where(new LogEventCondition("getField(eventType)==\"fail\""))
             .next("next").where(new LogEventCondition("getField(eventType)==\"fail\"")).within(Time.seconds(3))
-
-
 }
 
 println('aaa')

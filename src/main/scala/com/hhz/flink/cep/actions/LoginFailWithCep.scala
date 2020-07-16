@@ -50,9 +50,9 @@ object LoginFailWithCep {
       new SimpleStringSchema(),
       properties)
     consumer.setStartFromEarliest()
-    val kafkaStream = env.addSource(consumer)
 
-    val loginEventStream = kafkaStream.map( data => {
+    val loginEventStream = env.readTextFile(
+      getClass.getResource("/LoginLog.csv").getPath).map( data => {
         val dataArray = data.split(",")
         LoginEvent( dataArray(0).trim.toLong, dataArray(1).trim, dataArray(2).trim, dataArray(3).trim.toLong ,"{name:'zhangsan',age:12}")
       } )
@@ -75,15 +75,16 @@ object LoginFailWithCep {
       gson.toJson(x)
     })
 
-    val kafkaProducer: FlinkKafkaProducer[String] = new FlinkKafkaProducer[String](
+    strStream.print()
+
+   /* val kafkaProducer: FlinkKafkaProducer[String] = new FlinkKafkaProducer[String](
       sinkTopic,
       new SimpleStringSchema(),
       properties
     )
     strStream.print()
     strStream.filter(_ != null).addSink(kafkaProducer)
-
-
+*/
     env.execute("login fail with cep job")
   }
 }
@@ -94,6 +95,6 @@ class LoginFailMatch() extends PatternSelectFunction[LoginEvent, PatternResult]{
   override def select(map: util.Map[String, util.List[LoginEvent]]): PatternResult = {
     val k = map.keySet().iterator().next()
     val v = map.get(k).iterator().next()
-    PatternResult(v.userId.toString,java.lang.System.currentTimeMillis/1000,map)
+    PatternResult(v.userId.toString, java.lang.System.currentTimeMillis/1000, map)
   }
 }

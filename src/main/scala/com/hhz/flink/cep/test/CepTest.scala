@@ -13,9 +13,7 @@ import org.apache.flink.streaming.api.windowing.time.Time
 
 case class FlowLog(uid:Long,status:String,time:Long)
 object CepTest {
-
   def main(args: Array[String]): Unit = {
-
     val env = StreamExecutionEnvironment.getExecutionEnvironment
     env.setStreamTimeCharacteristic(TimeCharacteristic.EventTime)
     env.setParallelism(1)
@@ -30,44 +28,34 @@ object CepTest {
     val loginFailDataStream = patternStream.select( new FlowMatch() )
     loginFailDataStream.print("begin")
 
-
     env.execute("cep test")
-
   }
 
 
   def getLogs(env:StreamExecutionEnvironment): DataStream[FlowLog] ={
-    val logStream = env.fromElements(
+    env.fromElements(
       FlowLog(1,"fail",1558430857),
       FlowLog(1,"fail",1558430858),
       FlowLog(1,"fail",1558430859)
-
     )
-
-    return logStream
   }
 
   def beginnext(): Pattern[FlowLog,FlowLog] ={
     return Pattern.begin[FlowLog]("begin").where(_.status == "fail")
       .next("next").where(_.status == "fail")
       .within(Time.seconds(3))
-
   }
 
   def timespattern(): Pattern[FlowLog,FlowLog] ={
-    return Pattern.begin[FlowLog]("begin").where(_.status == "fail")
+    Pattern.begin[FlowLog]("begin").where(_.status == "fail")
 //      .times(3)
       .times(2,3)
       .within(Time.seconds(3))
-
   }
-
-
 }
 
 class FlowMatch() extends PatternSelectFunction[FlowLog, util.List[FlowLog]]{
   override def select(map: util.Map[String, util.List[FlowLog]]): util.List[FlowLog] = {
-    val logs = map.get("begin")
-    logs
+    map.get("begin")
   }
 }

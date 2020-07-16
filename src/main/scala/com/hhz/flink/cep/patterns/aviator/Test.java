@@ -9,7 +9,7 @@ public class Test {
 
     public static void main(String[] args) {
         AviatorEvaluator.addFunction(new GetString());
-        Map<String,Object> m = new HashMap<String, Object>();
+        Map<String, Object> m = new HashMap<String, Object>();
         m.put("uid","adfadfsadf");
         System.out.println(AviatorEvaluator.execute("getString(uid)>='12' ", m));
 
